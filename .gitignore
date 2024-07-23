@@ -1,0 +1,23 @@
+# ingore the node_modules directory
+node_modules
+*/coverage
+
+# ignore the .next directory in client
+
+.next
+
+
+# ignore nats-test directory
+nats-test
+
+# ignore the .env file
+.env
+
+# ignore common directory
+common
+
+# ignore the docker files
+.DS_Store
+
+# ignore other artifacts
+infra/k8s/nats-streaming.txt

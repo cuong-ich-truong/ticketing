@@ -1,0 +1,36 @@
+{
+  "name": "ticketing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:local": "skaffold dev",
+    "metrics:up": "kubectl apply -f metrics-server.yaml",
+    "metrics:status": "kubectl get pods -n kube-system | grep metrics-server",
+    "metrics:down": "kubectl delete -f metrics-server.yaml",
+    "pub:common": "cd common && npm run pub",
+    "update:auth": "cd auth && npm update @cit-psn/ticketing-common --save",
+    "update:expiration": "cd expiration && npm update @cit-psn/ticketing-common --save",
+    "update:orders": "cd orders && npm update @cit-psn/ticketing-common --save",
+    "update:payments": "cd payments && npm update @cit-psn/ticketing-common --save",
+    "update:tickets": "cd tickets && npm update @cit-psn/ticketing-common --save",
+    "build:auth": "cd auth && npm run build",
+    "build:expiration": "cd expiration && npm run build",
+    "build:orders": "cd orders && npm run build",
+    "build:payments": "cd payments && npm run build",
+    "build:tickets": "cd tickets && npm run build",
+    "test:auth": "cd auth && npm run test -- --silent --no-coverage",
+    "test:orders": "cd orders && npm run test -- --silent --no-coverage",
+    "test:payments": "cd payments && npm run test -- --silent --no-coverage",
+    "test:tickets": "cd tickets && npm run test -- --silent --no-coverage",
+    "b:all": "run-p build:* -l --aggregate-output",
+    "t:all": "run-p test:* -l --aggregate-output",
+    "u:all": "run-p update:* -l --aggregate-output"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

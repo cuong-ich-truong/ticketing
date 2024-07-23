@@ -1,29 +1,52 @@
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import { Logger } from '../utils/logger';
 import buildClient from '../api/build-client';
+import Link from 'next/link';
+import Ticket from '../models/ticket';
 
-type CurrentUser = {
-  id: string;
-  email: string;
-};
+export const getServerSideProps = (async (context) => {
+  const client = buildClient(context.req);
+  const { data: tickets } = await client.get('/api/tickets');
+  Logger.log('LandingPage.getServerSideProps: tickets', tickets);
 
-export const getServerSideProps = (async ({ req }) => {
-  const client = buildClient(req);
-  const response = await client
-    .get('/api/users/currentuser', {
-      headers: req.headers,
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
+  return {
+    props: {
+      tickets: tickets,
+    },
+  };
+}) satisfies GetServerSideProps<{
+  tickets: Ticket[];
+}>;
 
-  const currentUser = (response?.data.currentUser as CurrentUser) ?? null;
+const LandingPage = ({ currentUser, tickets }) => {
+  const ticketsTable = (tickets: Ticket[]) => {
+    return (
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tickets &&
+            tickets.map((ticket: Ticket) => (
+              <tr key={ticket.id}>
+                <td>{ticket.title}</td>
+                <td>{ticket.price}</td>
+                <td>
+                  <Link href="/tickets/[ticketId]" as={`/tickets/${ticket.id}`}>
+                    View
+                  </Link>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+    );
+  };
 
-  return { props: { currentUser } };
-}) satisfies GetServerSideProps<{ currentUser: CurrentUser }>;
-
-const LandingPage = ({
-  currentUser,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <div className="container">
       <h1>Landing Page</h1>
@@ -36,6 +59,7 @@ const LandingPage = ({
         )}
       </span>
       <p>Ticketing app is ready to go!</p>
+      {ticketsTable(tickets)}
     </div>
   );
 };

@@ -1,5 +1,13 @@
+# create secrets
+# stripe:
+# kubectl create secret opaque stripe-secret \
+#     --from-literal STRIPE_KEY=my_secret_api_key \
+#     --from-literal STRIPE_PUBLIC_KEY=my_secret_api_secret
+
 apiVersion: skaffold/v4beta11
 kind: Config
+metadata:
+  name: ticketing
 manifests:
   rawYaml:
     - ./infra/k8s/*
@@ -35,3 +43,31 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: cuongichtruong/ticketing-orders
+      context: orders
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: cuongichtruong/ticketing-expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: cuongichtruong/ticketing-payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+
+deploy:
+  logs:
+    prefix: auto

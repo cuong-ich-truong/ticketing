@@ -1,6 +1,5 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
-import request from 'supertest';
 import Jwt from 'jsonwebtoken';
 
 declare global {
@@ -8,7 +7,7 @@ declare global {
 }
 
 global.signin = (
-  id: string = '66960b8dbf3bfe87c776375e',
+  id: string = new mongoose.Types.ObjectId().toHexString(),
   email: string = 'test@test.com'
 ) => {
   // build JWT
@@ -36,6 +35,8 @@ global.signin = (
   return { cookie: cookie, id: payload.id };
 };
 
+jest.mock('../nats-wrapper');
+
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
@@ -48,6 +49,8 @@ beforeAll(async () => {
 beforeEach(async () => {
   const collections = await mongoose.connection.db.collections();
   collections.forEach(async (collection) => await collection.deleteMany({}));
+
+  jest.clearAllMocks();
 });
 
 afterAll(async () => {

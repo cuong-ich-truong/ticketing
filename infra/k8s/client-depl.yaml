@@ -16,9 +16,18 @@ spec:
       containers:
         - name: client
           image: cuongichtruong/ticketing-client
+          env:
+            - name: STRIPE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stripe-secret
+                  key: STRIPE_PUBLIC_KEY
           resources:
+            requests:
+              memory: '500Mi'
+              cpu: '250m'
             limits:
-              memory: '512Mi'
+              memory: '1000Mi'
               cpu: '500m'
 ---
 apiVersion: v1

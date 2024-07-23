@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import Errors from '../components/errors';
+import { Logger } from '../utils/logger';
 
 type UseRequestProps = {
   url: string;
@@ -24,10 +25,13 @@ const useRequest = ({
 }: UseRequestProps): UseRequestReturn => {
   const [errors, setErrors] = useState<JSX.Element | null>(null);
 
-  const doRequest = async (body?: any) => {
+  const doRequest = async (body: any = {}) => {
     try {
       setErrors(null);
-      const response = await axios[method](url, body ?? defaultBody);
+      const response = await axios[method](url, {
+        ...defaultBody,
+        ...body,
+      });
 
       if (onSuccess) {
         onSuccess(response.data);

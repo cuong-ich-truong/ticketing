@@ -21,7 +21,7 @@ describe('signin route', () => {
       })
       .expect(201);
 
-    request(app)
+    await request(app)
       .post('/api/users/signin')
       .send({
         email: 'test1@test.com',

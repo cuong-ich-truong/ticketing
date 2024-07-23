@@ -3,17 +3,16 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import buildClient from '../api/build-client';
 import Header from '../components/header';
-
-type CurrentUser = {
-  id: string;
-  email: string;
-};
+import { Logger } from '../utils/logger';
+import User from '../models/user';
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
   return (
     <>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />
+      <div className="container">
+        <Component currentUser={currentUser} {...pageProps} />
+      </div>
     </>
   );
 };
@@ -29,9 +28,10 @@ AppComponent.getInitialProps = async ({ Component, ctx }) => {
       console.log(err.message);
     });
 
-  const currentUser = (response?.data.currentUser as CurrentUser) ?? null;
+  const user = (response?.data.currentUser as User) ?? null;
+  Logger.log('AppComponent.getInitialProps: user', user);
 
-  return { currentUser };
+  return { currentUser: user };
 };
 
 export default AppComponent;

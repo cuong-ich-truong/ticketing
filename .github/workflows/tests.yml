@@ -17,4 +17,5 @@ jobs:
 
       - name: Run tests
         run: |
+          cd auth
           npm run test:ci

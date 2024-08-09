@@ -1,0 +1,23 @@
+name: tests
+
+on:
+  pull_request:
+    paths:
+      - 'payments/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          cd payments
+          npm install
+
+      - name: Run tests
+        run: |
+          cd payments
+          npm run test:ci

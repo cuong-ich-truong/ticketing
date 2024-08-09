@@ -1,0 +1,23 @@
+name: tests
+
+on:
+  pull_request:
+    paths:
+      - 'tickets/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          cd tickets
+          npm install
+
+      - name: Run tests
+        run: |
+          cd tickets
+          npm run test:ci

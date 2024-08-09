@@ -35,6 +35,20 @@ describe('ExpirationCompleteListener', () => {
     return { listener, data, msg };
   };
 
+  it('throws an error if the order does not exist', async () => {
+    const { listener, data, msg } = await setup();
+    data.orderId = new mongoose.Types.ObjectId().toHexString();
+
+    let error: any;
+    try {
+      await listener.onMessage(data, msg);
+    } catch (err) {
+      error = err;
+    }
+
+    expect((error as Error).message).toEqual('Order not found');
+  });
+
   it('updates the order status to cancelled', async () => {
     const { listener, data, msg } = await setup();
     await listener.onMessage(data, msg);

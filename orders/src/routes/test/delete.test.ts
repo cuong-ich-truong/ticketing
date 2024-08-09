@@ -6,6 +6,35 @@ import { natsWrapper } from '../../nats-wrapper';
 import mongoose from 'mongoose';
 
 describe('delete api/orders', () => {
+  it('returns 404 if order does not exit', async () => {
+    const user = global.signin();
+
+    await request(app)
+      .delete(`/api/orders/${new mongoose.Types.ObjectId().toHexString()}`)
+      .set('Cookie', user.cookie)
+      .expect(404);
+  });
+
+  it('returns 401 if user does not own the order', async () => {
+    const ticket = Ticket.build({
+      id: new mongoose.Types.ObjectId().toHexString(),
+      title: 'concert',
+      price: 20,
+    });
+    await ticket.save();
+
+    const { body: order } = await request(app)
+      .post('/api/orders')
+      .set('Cookie', global.signin().cookie)
+      .send({ ticketId: ticket.id })
+      .expect(201);
+
+    await request(app)
+      .delete(`/api/orders/${order.id}`)
+      .set('Cookie', global.signin().cookie)
+      .expect(401);
+  });
+
   it('marks an order as cancelled', async () => {
     const ticket = Ticket.build({
       id: new mongoose.Types.ObjectId().toHexString(),

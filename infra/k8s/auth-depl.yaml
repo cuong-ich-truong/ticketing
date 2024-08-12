@@ -26,8 +26,8 @@ spec:
                   key: JWT_KEY
           resources:
             limits:
-              memory: '512Mi'
-              cpu: '400m'
+              memory: '256Mi'
+              cpu: '100m'
 ---
 apiVersion: v1
 kind: Service

@@ -39,8 +39,8 @@ spec:
                   key: STRIPE_KEY
           resources:
             limits:
-              memory: '512Mi'
-              cpu: '500m'
+              memory: '256Mi'
+              cpu: '100m'
 ---
 apiVersion: v1
 kind: Service

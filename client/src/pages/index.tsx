@@ -49,7 +49,7 @@ const LandingPage = ({ currentUser, tickets }) => {
 
   return (
     <div className="container">
-      <h1>Landing Page</h1>
+      <h1>Welcome to Ticketing</h1>
       <span>
         {' '}
         {currentUser ? (

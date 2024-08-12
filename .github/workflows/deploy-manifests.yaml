@@ -1,0 +1,26 @@
+name: deploy-manifests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'infra/k8s'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Connect to DigitalOcean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Apply latest k8s manifests
+        run: |
+          doctl kubernetes cluster kubeconfig save do-k8s-ticket
+          kubectl apply -f infra/k8s
+          kubectl apply -f infra/k8s-prod

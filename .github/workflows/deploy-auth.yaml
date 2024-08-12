@@ -28,7 +28,12 @@ jobs:
       - name: Push to Docker Hub
         run: docker push cuongichtruong/ticketing-auth
 
-      - name: Deploy
+      - name: Connect to DigitalOcean
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Apply latest image
         run: |
-          cd auth
-          npm run deploy
+          doctl kubernetes cluster kubeconfig save do-k8s-ticket
+          kubectl rollout restart deployment auth-depl

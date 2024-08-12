@@ -19,7 +19,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Apply latest k8s manifests
+      - name: Apply latest infra k8s manifests
         run: |
           doctl kubernetes cluster kubeconfig save do-k8s-ticket
           kubectl apply -f infra/k8s

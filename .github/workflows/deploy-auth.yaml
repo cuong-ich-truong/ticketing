@@ -36,4 +36,4 @@ jobs:
       - name: Apply latest image
         run: |
           doctl kubernetes cluster kubeconfig save do-k8s-ticketing
-          kubectl rollout restart deployment auth-depl
+          kubectl rollout restart deployment auth-depl -n ticketing

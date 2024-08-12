@@ -1,11 +1,11 @@
-name: deploy-expiration
+name: deploy-payments
 
 on:
   push:
     branches:
       - master
     paths:
-      - 'expiration/**'
+      - 'payments/**'
 
 jobs:
   build:
@@ -16,8 +16,8 @@ jobs:
 
       - name: Build
         run: |
-          cd expiration
-          docker build -t cuongichtruong/ticketing-expiration .
+          cd payments
+          docker build -t cuongichtruong/ticketing-payments .
 
       - name: Login to Docker Hub
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
@@ -26,7 +26,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push to Docker Hub
-        run: docker push cuongichtruong/ticketing-expiration
+        run: docker push cuongichtruong/ticketing-payments
 
       - name: Connect to DigitalOcean
         uses: digitalocean/action-doctl@v2
@@ -36,4 +36,4 @@ jobs:
       - name: Apply latest image
         run: |
           doctl kubernetes cluster kubeconfig save do-k8s-ticketing
-          kubectl rollout restart deployment expiration-depl -n ticketing
+          kubectl rollout restart deployment payments-depl -n ticketing

@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const buildClient = (req) => {
   if (typeof window === 'undefined') {
+    // const baseURL = 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local';
     // We are on the server
     return axios.create({
-      baseURL:
-        'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      baseURL: 'http://www.citticketing.ddns.net/',
       headers: req.headers,
     });
   } else {

@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: www.citticketing.ddns.net
+    - host: www.appcit.co
       http:
         paths:
           - path: /api/users/?(.*)
@@ -52,7 +52,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'false'
-    service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.citticketing.ddns.net'
+    service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.appcit.co'
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginx

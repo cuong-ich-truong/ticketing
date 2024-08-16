@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: www.appcit.co
+    - host: appcit.co
       http:
         paths:
           - path: /api/users/?(.*)
@@ -75,6 +75,6 @@ spec:
       protocol: TCP
       targetPort: https
   selector:
-    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/name: ingress-srv
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/component: controller

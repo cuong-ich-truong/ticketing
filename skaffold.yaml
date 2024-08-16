@@ -11,6 +11,7 @@ metadata:
 manifests:
   rawYaml:
     - ./infra/k8s/*
+    - ./infra/k8s-dev/*
 build:
   local:
     push: false
@@ -38,7 +39,7 @@ build:
     - image: cuongichtruong/ticketing-tickets
       context: tickets
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: 'src/**/*.ts'

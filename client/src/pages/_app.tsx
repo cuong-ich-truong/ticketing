@@ -20,15 +20,16 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 AppComponent.getInitialProps = async ({ Component, ctx }) => {
   const client = buildClient(ctx.req);
 
-  const response = await client
-    .get('/api/users/currentuser', {
-      headers: ctx.req?.headers,
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
+  // const response = await client
+  //   .get('/api/users/currentuser', {
+  //     headers: ctx.req?.headers,
+  //   })
+  //   .catch((err) => {
+  //     console.log(err.message);
+  //   });
 
-  const user = (response?.data.currentUser as User) ?? null;
+  // const user = (response?.data.currentUser as User) ?? null;
+  const user = null;
   Logger.log('AppComponent.getInitialProps: user', user);
 
   return { currentUser: user };

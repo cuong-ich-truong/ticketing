@@ -6,8 +6,16 @@ import Ticket from '../models/ticket';
 
 export const getServerSideProps = (async (context) => {
   const client = buildClient(context.req);
-  const { data: tickets } = await client.get('/api/tickets');
-  Logger.log('LandingPage.getServerSideProps: tickets', tickets);
+  let tickets = [];
+  // await client
+  //   .get('/api/tickets')
+  //   .then((response) => {
+  //     tickets = response.data;
+  //     Logger.log('LandingPage.getServerSideProps: tickets', tickets);
+  //   })
+  //   .catch((error) => {
+  //     Logger.error('LandingPage.getServerSideProps: error', error);
+  //   });
 
   return {
     props: {

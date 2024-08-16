@@ -35,5 +35,5 @@ jobs:
 
       - name: Apply latest image
         run: |
-          doctl kubernetes cluster kubeconfig save do-k8s-ticketing
+          doctl kubernetes cluster kubeconfig save ${{ secrets.CLUSTER_ID }}
           kubectl rollout restart deployment client-depl -n ticketing

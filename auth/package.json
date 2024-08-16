@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
+    "build:prod": "tsc --project tsconfig.prod.json",
+    "docker-build:prod": "docker buildx build --platform linux/amd64,linux/arm64 -t cuongichtruong/ticketing-auth-prod -f Dockerfile.prod . --push",
+    "docker-push:prod": "docker push cuongichtruong/ticketing-auth-prod",
     "start": "ts-node-dev --poll src/index.ts",
+    "start:prod": "node build/index.js",
     "test": "jest --no-cache --detectOpenHandles",
     "test:ci": "jest",
     "test:watch": "jest --watchAll --no-cache --detectOpenHandles --no-coverage"
